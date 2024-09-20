@@ -173,7 +173,7 @@ PROJECT_VERSION=$2
 
 echo "### Beginning sonarscanner..."
 
-dotnet sonarscanner begin \
+.sonar/scanner/dotnet-sonarscanner begin \
     /k:"graduenz_whoof-aspnetcore" \
     /o:"graduenz" \
     /d:sonar.token="$SONAR_TOKEN" \
@@ -187,7 +187,7 @@ echo "### Building project..."
 dotnet build
 ./scripts/start-tests.sh
 
-dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
+.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"
 ```
 
 This script makes sure the sonar token and the project version to use are passed as parameters, then begins the scan with `sonarscanner` passing all parameters configuring which project to analyze, where to read test results, what files and folders should be ignored in code analysis, etc., then builds and tests the project (using our script created previously), and ends the scan.
@@ -213,22 +213,39 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Java 17
-        uses: actions/setup-java@v3
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: 'zulu'
+          java-version: '21'
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v4
+        with:
+          path: .sonar/scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
       - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         run: |
-          dotnet tool install --global dotnet-sonarscanner
+          mkdir -p .sonar/scanner
+          dotnet tool update dotnet-sonarscanner --tool-path .sonar/scanner
       - name: SonarCloud scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          docker-compose up -d
+          docker compose up -d
           ./scripts/start-sonarcloud.sh ${{ secrets.SONAR_TOKEN }} ${{ github.sha }}
 ```
 

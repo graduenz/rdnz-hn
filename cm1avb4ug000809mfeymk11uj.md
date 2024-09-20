@@ -68,12 +68,6 @@ This entire process is simplified with two scripts that we’ll see below.
 
 ## Let’s do it
 
-### The big picture
-
-Before going into details, I’ve drawn a simple diagram explaining how this process will work, just in case if you are not familiar with it.
-
-sequenceDiagram participant local as Your machine box transparent GitHub cloud participant repo as GitHub repository participant actions as GitHub Actions participant evaluate as evaluate-pr.yml participant sonarsh as start-sonarcloud.sh end box transparent SonarCloud cloud participant sc as SonarCloud end local -&gt;&gt; repo: Push repo --&gt;&gt; actions: Triggers actions -&gt;&gt; evaluate: Runs Note over evaluate: Code checkout Note over evaluate: Setup Java 17 evaluate -&gt;&gt; sonarsh: Runs Note over sonarsh: sonarscanner begin Note over sonarsh: dotnet build Note over sonarsh: dotnet test Note over sonarsh: sonarscanner end sonarsh -&gt;&gt; sc: Reports results sc --&gt;&gt; repo: Replies your pull request with the report
-
 ### Setup SonarCloud
 
 First, sign in into [SonarCloud](https://sonarcloud.io/) with the account you want. I suggest using GitHub.

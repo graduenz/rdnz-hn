@@ -10,6 +10,11 @@ tags: github, dotnet, sonarcloud
 
 ---
 
+<div data-node-type="callout">
+<div data-node-type="callout-emoji">ℹ</div>
+<div data-node-type="callout-text">Last update on September 20, 2024.</div>
+</div>
+
 ## Static code analysis
 
 Static code analysis is the process of examining the source code of a software without running it, with the purpose of detecting bugs, finding code smells, improving the code, finding security issues, helping with reviewing pull requests, and more.

@@ -1,10 +1,10 @@
 ---
-title: "ASP.NET Core Integration Tests"
-seoTitle: "ASP.NET Core Integration Tests"
+title: "Creating integration tests with ASP.NET Core"
+seoTitle: "Creating integration tests with ASP.NET Core"
 seoDescription: "A comprehensive guide on creating ASP.NET Core integration tests using Docker, Docker Compose, and xUnit, with examples and best practices."
 datePublished: Thu Aug 31 2023 03:00:00 GMT+0000 (Coordinated Universal Time)
 cuid: cm1asyla4000309lbh6w3cwge
-slug: aspnet-core-integration-tests
+slug: creating-integration-tests-with-aspnet-core
 canonical: https://rdnz.dev/blog/asp-net-core-integration-tests/
 tags: unit-testing, aspnet-core, dotnet, xunit
 

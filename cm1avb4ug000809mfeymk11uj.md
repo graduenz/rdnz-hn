@@ -264,7 +264,7 @@ Also, if you go to the Checks tab, you will get the complete SonarCloud report:
 
 And that’s all! Look further if you want to go a bit deeper, that section below is likely to be updated often.
 
-## More
+## Extra
 
 Until this point, you’ve seen how to set up the whole process of static code analysis on your pull requests and main branch commits. However, there are some extra lessons that I learned, and I’m sharing below with you.
 
